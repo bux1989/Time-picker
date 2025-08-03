@@ -91,9 +91,12 @@ export default {
         initValue: {
             immediate: true,
             handler(newValue, oldValue) {
-                if (JSON.stringify(newValue) === JSON.stringify(oldValue)) return;
-                this.setValue(newValue);
-                if (oldValue !== undefined) {
+                // Always set the value if there's a valid initValue, especially on first load
+                if (newValue !== null && newValue !== undefined) {
+                    this.setValue(newValue);
+                }
+                // Only emit change event if this is not the initial setup
+                if (oldValue !== undefined && JSON.stringify(newValue) !== JSON.stringify(oldValue)) {
                     this.$emit("trigger-event", {
                         name: "initValueChange",
                         event: { value: newValue },
