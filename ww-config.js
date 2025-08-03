@@ -93,13 +93,13 @@ export default {
         en: "Init value",
       },
       type: "Text",
-      defaultValue: null,
+      defaultValue: "08:00",
       bindable: true,
       section: "settings",
       /* wwEditor:start */
       bindingValidation: {
         type: "string",
-        tooltip: 'A string time in format: `"14:30:00"` or `"2:30 PM"`',
+        tooltip: 'A string time in format: `"14:30"` or `"14:30:00"` (must be between 07:00 and 17:00)',
       },
       /* wwEditor:end */
     },
@@ -420,7 +420,7 @@ export default {
         state: {
           name: "OK button",
         },
-        content: { default: { text: "OK" } },
+        content: { text: "OK" },
       },
       navigator: {
         group: "Actions",

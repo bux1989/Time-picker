@@ -88,13 +88,18 @@ export default {
         };
     },
     watch: {
-        initValue(newValue, oldValue) {
-            if (JSON.stringify(newValue) === JSON.stringify(oldValue)) return;
-            this.setValue(newValue);
-            this.$emit("trigger-event", {
-                name: "initValueChange",
-                event: { value: newValue },
-            });
+        initValue: {
+            immediate: true,
+            handler(newValue, oldValue) {
+                if (JSON.stringify(newValue) === JSON.stringify(oldValue)) return;
+                this.setValue(newValue);
+                if (oldValue !== undefined) {
+                    this.$emit("trigger-event", {
+                        name: "initValueChange",
+                        event: { value: newValue },
+                    });
+                }
+            },
         },
         /* wwEditor:start */
         async tpKey() {
