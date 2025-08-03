@@ -39,7 +39,7 @@
             <template #action-select>
                 <wwElement 
                     v-bind="content.actionSelectElement" 
-                    :content="{ default: { text: 'OK' } }"
+                    text="OK"
                     @click="selectTime" 
                 />
             </template>
