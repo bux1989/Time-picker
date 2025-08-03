@@ -420,7 +420,11 @@ export default {
         state: {
           name: "OK button",
         },
-        content: { default: { text: "OK" } },
+        content: {
+          default: {
+            text: "OK"
+          }
+        },
       },
       navigator: {
         group: "Actions",

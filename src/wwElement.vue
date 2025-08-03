@@ -37,7 +37,11 @@
                 </wwLayoutItemContext>
             </template>
             <template #action-select>
-                <wwElement v-bind="content.actionSelectElement" @click="selectTime" />
+                <wwElement 
+                    v-bind="content.actionSelectElement" 
+                    :content="{ default: { text: 'OK' } }"
+                    @click="selectTime" 
+                />
             </template>
         </DatePicker>
         <input class="required-handler" type="text" :required="content.required" :value="formatedValue" />
