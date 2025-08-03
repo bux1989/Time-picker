@@ -38,8 +38,7 @@
             </template>
             <template #action-select>
                 <wwElement 
-                    v-bind="content.actionSelectElement" 
-                    text="OK"
+                    v-bind="{ ...content.actionSelectElement, content: { default: { text: 'OK' } } }"
                     @click="selectTime" 
                 />
             </template>
