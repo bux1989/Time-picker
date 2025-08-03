@@ -413,14 +413,14 @@ export default {
       },
     },
     actionSelectElement: {
-      hidden: true,
+      hidden: false,
       defaultValue: {
         isWwObject: true,
         type: "ww-button",
         state: {
-          name: "Select button",
+          name: "OK button",
         },
-        content: { default: { text: "Select" } },
+        content: { default: { text: "OK" } },
       },
       navigator: {
         group: "Actions",

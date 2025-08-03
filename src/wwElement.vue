@@ -17,6 +17,7 @@
             :is-24="content.use24"
             :autoApply="content.autoApply"
             :close-on-auto-apply="content.closeOnAutoApply"
+            :keep-action-row="true"
             :min-time="minTime"
             :max-time="maxTime"
             :position="content.menuPosition || 'center'"
