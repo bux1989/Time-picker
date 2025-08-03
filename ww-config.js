@@ -1,11 +1,11 @@
 export default {
   editor: {
     label: {
-      en: "Date picker",
+      en: "Time picker",
     },
-    icon: "calendar",
+    icon: "clock",
     bubble: {
-      icon: "calendar",
+      icon: "clock",
     },
     customStylePropertiesOrder: [
       "lang",
@@ -13,25 +13,15 @@ export default {
       "customFormat",
       [
         "displayTitle",
-        "orientation",
         "menuPosition",
-        "enableCalendarOnly",
-        "stickedDatePicker",
-        "calendarOnlyFit",
-        "enableLeftSidebar",
-        "enableRightSidebar",
-        "enableMultiCalendars",
-        "multiCalendars",
-        "multiCalendarsSolo",
+        "stickedTimePicker",
       ],
       [
         "stylesTitle",
         "themeFontFamily",
         "themeFontSize",
         "themeTimeFontSize",
-
         "advancedStyles",
-        "themePreviewFontSize",
         "themeBorderRadius",
         "themeCellBorderRadius",
         "themeCellSize",
@@ -47,7 +37,6 @@ export default {
         "themePrimaryTextColor",
         "themeHoverColor",
         "themeDisabledColor",
-
         "advancedColors",
         "themeHoverTextColor",
         "themeHoverIconColor",
@@ -67,44 +56,15 @@ export default {
       "readonly",
       "required",
       [
-        "selectionTitle",
-        "selectionMode",
-        "initValueSingle",
-        "initValueRangeStart",
-        "initValueRangeEnd",
-        "initValueMulti",
-        "multiDatesLimit",
-        "rangeMode",
-        "autoRange",
-        "enablePartialRange",
-        "minRange",
-        "maxRange",
-        "noDisabledRange",
-      ],
-      ["behaviorTitle", "autoApply", "closeOnAutoApply"],
-      ["timeTitle", "dateMode", "timezone", "use24", "enableSeconds"],
-      [
-        "datesTitle",
-        "startDate",
-        "minDate",
-        "maxDate",
-
-        "advancedDates",
-        "preventMinMaxNavigation",
-        "ignoreTimeValidation",
-        "allowedDates",
-        "disabledDates",
-        "disabledWeekDays",
+        "timeTitle", 
+        "use24", 
+        "enableSeconds"
       ],
       [
-        "weeksAndMonthsTitle",
-        "weekStart",
-        "weekNumbers",
-        "hideOffsetDates",
-        "disableMonthYearSelect",
+        "behaviorTitle", 
+        "autoApply", 
+        "closeOnAutoApply"
       ],
-
-      ["flowTitle", "enableFlow", "flowHint", "flowSteps"],
     ],
   },
   triggerEvents: [
@@ -139,59 +99,9 @@ export default {
       /* wwEditor:start */
       bindingValidation: {
         type: "string",
-        tooltip: 'A string ISO date: `"2021-03-11T10:11:20.000+00:00"`',
+        tooltip: 'A string time in format: `"14:30:00"` or `"2:30 PM"`',
       },
       /* wwEditor:end */
-      hidden: (content) => content.selectionMode !== "single",
-    },
-    initValueRangeStart: {
-      label: {
-        en: "Init value start",
-      },
-      type: "Text",
-      defaultValue: null,
-      bindable: true,
-      section: "settings",
-      /* wwEditor:start */
-      bindingValidation: {
-        type: "string",
-        tooltip: 'A string ISO date: `"2021-03-11T10:11:20.000+00:00"`',
-      },
-      /* wwEditor:end */
-      hidden: (content) => content.selectionMode !== "range",
-    },
-    initValueRangeEnd: {
-      label: {
-        en: "Init value end",
-      },
-      type: "Text",
-      defaultValue: null,
-      bindable: true,
-      section: "settings",
-      /* wwEditor:start */
-      bindingValidation: {
-        type: "string",
-        tooltip: 'A string ISO date: `"2021-03-11T10:11:20.000+00:00"`',
-      },
-      /* wwEditor:end */
-      hidden: (content) => content.selectionMode !== "range",
-    },
-    initValueMulti: {
-      label: {
-        en: "Init value",
-      },
-      type: "Array",
-      defaultValue: null,
-      bindable: true,
-      section: "settings",
-      /* wwEditor:start */
-      bindingValidation: {
-        type: "array",
-        tooltip:
-          'An array containing string ISO date: `"2021-03-11T10:11:20.000+00:00"`',
-      },
-      /* wwEditor:end */
-      hidden: (content) => content.selectionMode !== "multi",
     },
     displayTitle: {
       label: {
@@ -219,14 +129,6 @@ export default {
       section: "style",
       editorOnly: true,
     },
-    selectionTitle: {
-      label: {
-        en: "Selection",
-      },
-      type: "Title",
-      section: "settings",
-      editorOnly: true,
-    },
     behaviorTitle: {
       label: {
         en: "Behavior",
@@ -243,110 +145,16 @@ export default {
       section: "settings",
       editorOnly: true,
     },
-    datesTitle: {
-      label: {
-        en: "Dates",
-      },
-      type: "Title",
-      section: "settings",
-      editorOnly: true,
-    },
-    weeksAndMonthsTitle: {
-      label: {
-        en: "Weeks / Months",
-      },
-      type: "Title",
-      section: "settings",
-      editorOnly: true,
-    },
-    flowTitle: {
-      label: {
-        en: "Flow",
-      },
-      type: "Title",
-      section: "settings",
-      editorOnly: true,
-    },
-    advancedColors: {
-      label: { en: "Advanced" },
-      section: "style",
-      defaultValue: false,
-      type: "TextRadioGroup",
-      options: {
-        choices: [
-          { value: true, label: { en: "Show" } },
-          { value: false, label: { en: "Hide" } },
-        ],
-      },
-    },
-    advancedStyles: {
-      label: { en: "Advanced" },
-      section: "style",
-      defaultValue: false,
-      type: "TextRadioGroup",
-      options: {
-        choices: [
-          { value: true, label: { en: "Show" } },
-          { value: false, label: { en: "Hide" } },
-        ],
-      },
-    },
-    advancedDates: {
-      label: { en: "Advanced" },
-      section: "settings",
-      defaultValue: false,
-      type: "TextRadioGroup",
-      options: {
-        choices: [
-          { value: true, label: { en: "Show" } },
-          { value: false, label: { en: "Hide" } },
-        ],
-      },
-    },
-    enableCalendarOnly: {
-      label: { en: "Calendar only", fr: "Calendrier seul" },
-      type: "OnOff",
-      defaultValue: false,
-      states: true,
-      classes: true,
-    },
-    stickedDatePicker: {
-      label: { en: "Sticked date picker", fr: "Date picker fixé" },
+    stickedTimePicker: {
+      label: { en: "Sticked time picker", fr: "Time picker fixé" },
       type: "OnOff",
       defaultValue: false,
       states: true,
       classes: true,
       bindable: true,
       propertyHelp: {
-        tooltip: "If set to `true`, the date picker will be rendered at trigger button level and not above all elements. This may be useful in the case of a date picker in a pop-up.",
+        tooltip: "If set to `true`, the time picker will be rendered at trigger button level and not above all elements. This may be useful in the case of a time picker in a pop-up.",
       },
-    },
-    calendarOnlyFit: {
-      label: { en: "Fit" },
-      section: "style",
-      defaultValue: "stretch",
-      type: "TextRadioGroup",
-      options: {
-        choices: [
-          { value: "stretch", label: { en: "Stretch" } },
-          { value: "center", label: { en: "Center" } },
-        ],
-      },
-      states: true,
-      classes: true,
-      hidden: (content) => !content.enableCalendarOnly,
-    },
-    enableLeftSidebar: {
-      label: { en: "Left sidebar" },
-      type: "OnOff",
-      defaultValue: false,
-      hidden: (content) => content.enableCalendarOnly,
-    },
-    enableRightSidebar: {
-      label: { en: "Right sidebar" },
-      type: "OnOff",
-      defaultValue: false,
-      hidden: (content) => content.enableCalendarOnly,
     },
     menuPosition: {
       label: {
@@ -366,292 +174,38 @@ export default {
       responsive: true,
       defaultValue: "center",
     },
-    selectionMode: {
-      label: {
-        en: "Mode",
-        fr: "Mode",
-      },
-      type: "TextSelect",
-      section: "settings",
-      options: {
-        options: [
-          { value: "single", label: { en: "Single" } },
-          { value: "range", label: { en: "Range" } },
-          { value: "multi", label: { en: "Multi dates" } },
-        ],
-      },
-      defaultValue: "single",
-    },
-    dateMode: {
-      label: {
-        en: "Mode",
-        fr: "Mode",
-      },
-      type: "TextSelect",
-      section: "settings",
-      options: (content) => {
-        return {
-          options: [
-            {
-              value: "datetime",
-              label: { en: "Datetime" },
-              support: ["single", "range", "multi"],
-            },
-            {
-              value: "date",
-              label: { en: "Date" },
-              support: ["single", "range", "multi"],
-            },
-            {
-              value: "time",
-              label: { en: "Time" },
-              support: ["single", "range"],
-            },
-            {
-              value: "month",
-              label: { en: "Month" },
-              support: ["single", "range"],
-            },
-            {
-              value: "year",
-              label: { en: "Year" },
-              support: ["single", "range"],
-            },
-          ].filter((opt) => opt.support.includes(content.selectionMode)),
-        };
-      },
-      defaultValue: "datetime",
-    },
     enableSeconds: {
       label: { en: "Enable seconds", fr: "Activer les secondes" },
       type: "OnOff",
       section: "settings",
       defaultValue: false,
-      hidden: (content) => !["datetime", "time"].includes(content.dateMode),
     },
     use24: {
       label: { en: "24h mode", fr: "Mode 24h" },
       type: "OnOff",
       section: "settings",
-      defaultValue: false,
+      defaultValue: true,
       states: true,
       classes: true,
       responsive: true,
-      hidden: (content) => !["datetime", "time"].includes(content.dateMode),
     },
-    multiDatesLimit: {
+    autoApply: {
       label: {
-        en: "Multi dates limit",
+        en: "Auto apply",
       },
-      type: "Number",
-      section: "settings",
-      defaultValue: 0,
-      hidden: (content) => content.selectionMode !== "multi",
-    },
-    enableMultiCalendars: {
-      label: { en: "Multi calendars", fr: "Calendriers multiple" },
-      type: "OnOff",
-      section: "style",
-      defaultValue: false,
-      hidden: (content) =>
-        content.selectionMode !== "range" ||
-        !["datetime", "date", "week"].includes(content.dateMode),
-    },
-    multiCalendars: {
-      label: {
-        en: "Calendars number",
-      },
-      type: "Number",
-      section: "style",
-      defaultValue: 2,
-      options: {
-        min: 2,
-        max: 4,
-        step: 1,
-      },
-      hidden: (content) =>
-        content.selectionMode !== "range" ||
-        !["datetime", "date", "week"].includes(content.dateMode) ||
-        !content.enableMultiCalendars,
-    },
-    multiCalendarsSolo: {
-      label: { en: "Independant calendars", fr: "Calendriers indépendants" },
-      type: "OnOff",
-      section: "style",
-      defaultValue: false,
-      hidden: (content) =>
-        content.selectionMode !== "range" ||
-        !["datetime", "date", "week"].includes(content.dateMode) ||
-        !content.enableMultiCalendars,
-    },
-    rangeMode: {
-      label: { en: "Range mode", fr: "Range mode" },
-      type: "TextSelect",
-      section: "settings",
-      options: {
-        options: [
-          { value: "free", label: { en: "Free" } },
-          { value: "auto", label: { en: "Auto" } },
-          { value: "minmax", label: { en: "Min Max" } },
-        ],
-      },
-      bindable: true,
-      defaultValue: "free",
-      hidden: (content) => content.selectionMode !== "range",
-    },
-    enablePartialRange: {
-      label: { en: "Partial range", fr: "Range partiel" },
       type: "OnOff",
       section: "settings",
       bindable: true,
       defaultValue: true,
-      hidden: (content) =>
-        content.selectionMode !== "range" ||
-        content.rangeMode !== "free" ||
-        (content.rangeMode === "free" && content.enableCalendarOnly),
     },
-    autoRange: {
+    closeOnAutoApply: {
       label: {
-        en: "Auto range days",
+        en: "Close on auto apply",
       },
-      type: "Number",
-      section: "settings",
-      bindable: true,
-      defaultValue: 1,
-      hidden: (content) =>
-        content.selectionMode !== "range" || content.rangeMode !== "auto",
-    },
-    minRange: {
-      label: {
-        en: "Min range days",
-      },
-      type: "Number",
-      section: "settings",
-      bindable: true,
-      defaultValue: 2,
-      hidden: (content) =>
-        content.selectionMode !== "range" || content.rangeMode !== "minmax",
-    },
-    maxRange: {
-      label: {
-        en: "Max range days",
-      },
-      type: "Number",
-      section: "settings",
-      bindable: true,
-      defaultValue: 7,
-      hidden: (content) =>
-        content.selectionMode !== "range" || content.rangeMode !== "minmax",
-    },
-    orientation: {
-      label: {
-        en: "Orientation",
-        fr: "Orientation",
-      },
-      type: "TextSelect",
-      options: {
-        options: [
-          { value: "horizontal", label: { en: "Horizontal" }, default: true },
-          { value: "vertical", label: { en: "Vertical" } },
-        ],
-      },
-      states: true,
-      classes: true,
-      responsive: true,
-    },
-    timezone: {
-      label: {
-        en: "Timezone",
-        fr: "Fuseau horaire",
-      },
-      type: "TextSelect",
-      section: "settings",
-      options: {
-        options: [
-          { value: "locale", label: { en: "Locale" } },
-          { value: "Pacific/Midway", label: { en: "Pacific/Midway" } }, // -11
-          { value: "America/Adak", label: { en: "America/Adak" } }, // -10,
-          { value: "Pacific/Gambier", label: { en: "Pacific/Gambier" } }, // -9
-          {
-            value: "America/Los_Angeles",
-            label: { en: "America/Los_Angeles" },
-          }, // -8
-          { value: "America/Denver", label: { en: "America/Denver" } }, // -7
-          { value: "America/Chicago", label: { en: "America/Chicago" } }, // -6
-          { value: "America/New_York", label: { en: "America/New_York" } }, // -5
-          { value: "America/Santiago", label: { en: "America/Santiago" } }, // -4
-          { value: "America/Sao_Paulo", label: { en: "America/Sao_Paulo" } }, // -3
-          { value: "America/Noronha", label: { en: "America/Noronha" } }, // -2
-          {
-            value: "Atlantic/Cape_Verde",
-            label: { en: "Atlantic/Cape_Verde" },
-          }, // -1
-          { value: "UTC", label: { en: "UTC" } }, // utc
-          { value: "Europe/Brussels", label: { en: "Europe/Brussels" } }, //+1
-          { value: "Africa/Cairo", label: { en: "Africa/Cairo" } }, // +2
-          { value: "Europe/Minsk", label: { en: "Europe/Minsk" } }, // +3
-          { value: "Europe/Moscow", label: { en: "Europe/Moscow" } }, // +4
-          { value: "Asia/Tashkent", label: { en: "Asia/Tashkent" } }, // +5
-          { value: "Asia/Dhaka", label: { en: "Asia/Dhaka" } }, // +6
-          { value: "Asia/Novosibirsk", label: { en: "Asia/Novosibirsk" } }, // +7
-          { value: "Australia/Perth", label: { en: "Australia/Perth" } }, // +8
-          { value: "Asia/Tokyo", label: { en: "Asia/Tokyo" } }, // +9
-          { value: "Australia/Hobart", label: { en: "Australia/Hobart" } }, // +10
-          { value: "Asia/Vladivostok", label: { en: "Asia/Vladivostok" } }, // +11
-          { value: "Pacific/Auckland", label: { en: "Pacific/Auckland" } }, // +12
-        ],
-      },
-      defaultValue: "locale",
-      bindable: true,
-      hidden: (content) => !["datetime"].includes(content.dateMode),
-    },
-    enableFlow: {
-      label: { en: "Flow", fr: "Flow" },
       type: "OnOff",
+      section: "settings",
       bindable: true,
-      section: "settings",
-      defaultValue: false,
-      hidden: (content) => content.enableMultiCalendars,
-    },
-    flowHint: {
-      label: {
-        en: "Hint",
-        fr: "Hint",
-      },
-      type: "Info",
-      options: {
-        text: { en: "Order the flow steps" },
-      },
-      section: "settings",
-      editorOnly: true,
-      hidden: (content) => !content.enableFlow,
-    },
-    flowSteps: {
-      label: {
-        en: "Steps",
-        fr: "Steps",
-      },
-      type: "Array",
-      section: "settings",
-      options: {
-        item: {
-          type: "Text",
-        },
-        movable: true,
-        getItemLabel(_, index) {
-          return `Step ${index + 1}`;
-        },
-      },
-      defaultValue: [
-        "month",
-        "year",
-        "calendar",
-        "time",
-        "minutes",
-        "hours",
-        "seconds",
-      ],
-      hidden: (content) => !content.enableFlow,
+      defaultValue: true,
     },
     readonly: {
       label: { en: "Read only", fr: "Lecture seule" },
@@ -692,7 +246,7 @@ export default {
       /* wwEditor:start */
       bindingValidation: {
         type: "string",
-        tooltip: 'A string that defines the lang: `"en" | "es" | "fr"`',
+        tooltip: 'A string that defines the lang: `"en" | "de" | "fr"`',
       },
       /* wwEditor:end */
     },
@@ -704,233 +258,55 @@ export default {
       type: "TextSelect",
       options: {
         options: [
-          { value: "DD/MM/YYYY", label: { en: "DD/MM/YYYY" } },
-          { value: "MMMM D, YYYY", label: { en: "MMMM D, YYYY" } },
-          { value: "MMM D, YYYY", label: { en: "MMM D, YYYY" } },
           { value: "h:mm A", label: { en: "h:mm A" } },
           { value: "h:mm:ss A", label: { en: "h:mm:ss A" } },
-          {
-            value: "MMM D, YYYY h:mm A",
-            label: { en: "MMM D, YYYY h:mm A" },
-          },
+          { value: "HH:mm", label: { en: "HH:mm" } },
+          { value: "HH:mm:ss", label: { en: "HH:mm:ss" } },
           { value: "custom", label: { en: "Custom" } },
         ],
       },
-      defaultValue: "DD/MM/YYYY",
+      defaultValue: "HH:mm",
     },
     customFormat: {
       label: { en: "Custom Format", fr: "Custom Format" },
       type: "Text",
       options: {
-        placeholder: "MMMM D, YYYY h:mm A",
+        placeholder: "HH:mm",
       },
       bindable: true,
       /* wwEditor:start */
       bindingValidation: {
         type: "string",
         tooltip:
-          'A string following unicode rules: `"MM/dd/yyyy HH:mm"` [See unicode format](https://www.unicode.org/reports/tr35/tr35-dates.html#Date_Field_Symbol_Table)',
+          'A string following unicode rules: `"HH:mm"` [See unicode format](https://www.unicode.org/reports/tr35/tr35-dates.html#Date_Field_Symbol_Table)',
       },
       /* wwEditor:end */
       defaultValue: "",
       hidden: (content) => content.format !== "custom",
     },
-    autoApply: {
-      label: {
-        en: "Auto apply",
-      },
-      type: "OnOff",
-      section: "settings",
-      bindable: true,
+    advancedColors: {
+      label: { en: "Advanced" },
+      section: "style",
       defaultValue: false,
-    },
-    closeOnAutoApply: {
-      label: {
-        en: "Close on auto apply",
-      },
-      type: "OnOff",
-      section: "settings",
-      bindable: true,
-      defaultValue: true,
-    },
-    weekNumbers: {
-      label: { en: "Week numbers" },
-      type: "TextSelect",
-      section: "settings",
+      type: "TextRadioGroup",
       options: {
-        options: [
-          { value: "none", label: { en: "None" } },
-          { value: "local", label: { en: "Local" } },
-          { value: "iso", label: { en: "ISO" } },
+        choices: [
+          { value: true, label: { en: "Show" } },
+          { value: false, label: { en: "Hide" } },
         ],
       },
-      bindable: true,
-      defaultValue: "none",
     },
-    weekStart: {
-      label: { en: "Week start" },
-      type: "TextSelect",
-      section: "settings",
+    advancedStyles: {
+      label: { en: "Advanced" },
+      section: "style",
+      defaultValue: false,
+      type: "TextRadioGroup",
       options: {
-        options: [
-          { value: "0", label: { en: "Sunday" } },
-          { value: "1", label: { en: "Monday" } },
-          { value: "2", label: { en: "Tuesday" } },
-          { value: "3", label: { en: "Wednesday" } },
-          { value: "4", label: { en: "Thursday" } },
-          { value: "5", label: { en: "Friday" } },
-          { value: "6", label: { en: "Saturday" } },
+        choices: [
+          { value: true, label: { en: "Show" } },
+          { value: false, label: { en: "Hide" } },
         ],
       },
-      /* wwEditor:start */
-      bindingValidation: {
-        type: "string",
-        tooltip:
-          'A string from "0" to "6" for the day of the week, "0" is Sunday',
-      },
-      /* wwEditor:end */
-      bindable: true,
-      defaultValue: "1",
-    },
-    hideOffsetDates: {
-      label: {
-        en: "Hide offset dates",
-      },
-      type: "OnOff",
-      section: "settings",
-      bindable: true,
-      defaultValue: false,
-    },
-    minDate: {
-      label: {
-        en: "Min date",
-      },
-      type: "Text",
-      section: "settings",
-      bindable: true,
-      defaultValue: null,
-    },
-    maxDate: {
-      label: {
-        en: "Max date",
-      },
-      type: "Text",
-      section: "settings",
-      bindable: true,
-      defaultValue: null,
-    },
-    preventMinMaxNavigation: {
-      label: {
-        en: "Prevent min/max navigation",
-      },
-      type: "OnOff",
-      section: "settings",
-      bindable: true,
-      defaultValue: false,
-      hidden: (content) => !content.advancedDates,
-    },
-    ignoreTimeValidation: {
-      label: {
-        en: "Ignore time validation",
-      },
-      type: "OnOff",
-      section: "settings",
-      bindable: true,
-      defaultValue: false,
-      hidden: (content) => !content.advancedDates,
-    },
-    startDate: {
-      label: {
-        en: "Start date",
-      },
-      type: "Text",
-      section: "settings",
-      bindable: true,
-      defaultValue: null,
-    },
-    disableMonthYearSelect: {
-      label: {
-        en: "Disable month/year select",
-      },
-      type: "OnOff",
-      section: "settings",
-      bindable: true,
-      defaultValue: false,
-    },
-    allowedDates: {
-      label: {
-        en: "Allowed dates",
-      },
-      type: "Array",
-      section: "settings",
-      options: {
-        item: {
-          type: "Text",
-          defaultValue: "2023-03-06",
-        },
-      },
-      bindable: true,
-      defaultValue: [],
-      hidden: (content) => !content.advancedDates,
-    },
-    disabledDates: {
-      label: {
-        en: "Disabled dates",
-      },
-      type: "Array",
-      section: "settings",
-      options: {
-        item: {
-          type: "Text",
-          defaultValue: "2023-03-06",
-        },
-      },
-      bindable: true,
-      defaultValue: [],
-      hidden: (content) => !content.advancedDates,
-    },
-    disabledWeekDays: {
-      label: {
-        en: "Disabled week days",
-      },
-      type: "Array",
-      section: "settings",
-      options: {
-        item: {
-          type: "TextSelect",
-          options: {
-            options: [
-              { value: "0", label: { en: "Sunday" } },
-              { value: "1", label: { en: "Monday" } },
-              { value: "2", label: { en: "Tuesday" } },
-              { value: "3", label: { en: "Wednesday" } },
-              { value: "4", label: { en: "Thursday" } },
-              { value: "5", label: { en: "Friday" } },
-              { value: "6", label: { en: "Saturday" } },
-            ],
-          },
-        },
-      },
-      /* wwEditor:start */
-      bindingValidation: {
-        type: "string",
-        tooltip:
-          'A string from "0" to "6" for the day of the week, "0" is Sunday',
-      },
-      /* wwEditor:end */
-      bindable: true,
-      defaultValue: [],
-      hidden: (content) => !content.advancedDates,
-    },
-    noDisabledRange: {
-      label: {
-        en: "No disabled range",
-      },
-      type: "OnOff",
-      section: "settings",
-      bindable: true,
-      defaultValue: false,
-      hidden: (content) => content.selectionMode !== "range",
     },
     /* ==== THEMING ==== */
     themeFontFamily: {
@@ -949,12 +325,6 @@ export default {
       "Cell border radius",
       4,
       20,
-      true
-    ),
-    themePreviewFontSize: generateThemeSizingConfig(
-      "Preview font size",
-      13,
-      48,
       true
     ),
     themeMenuMinWidth: generateThemeSizingConfig(
@@ -1034,7 +404,7 @@ export default {
           isWwObject: true,
           type: "ww-text",
           state: {
-            name: "Date input",
+            name: "Time input",
           },
         },
       ],
@@ -1042,21 +412,6 @@ export default {
         group: "Trigger",
       },
     },
-    leftSidebarZone: {
-      hidden: true,
-      defaultValue: [],
-      navigator: {
-        group: "Left Sidebar",
-      },
-    },
-    rightSidebarZone: {
-      hidden: true,
-      defaultValue: [],
-      navigator: {
-        group: "Right Sidebar",
-      },
-    },
-
     actionSelectElement: {
       hidden: true,
       defaultValue: {
