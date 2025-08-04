@@ -37,13 +37,7 @@
                 </wwLayoutItemContext>
             </template>
             <template #action-select>
-              <div style="width: 100%; display: flex; justify-content: center;">
-                <wwElement
-                  :is="content?.actionSelectElement?.type || 'ww-button'"
-                  :content="content?.actionSelectElement?.content || { default: { text: 'OK' } }"
-                  @click="selectTime"
-                />
-              </div>
+              <button class="ww-ok-button" @click="selectTime">OK</button>
             </template>
         </DatePicker>
         <input class="required-handler" type="text" :required="content.required" :value="formatedValue" />
