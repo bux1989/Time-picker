@@ -72,9 +72,19 @@
                     <wwLayout path="triggerZone" />
                 </wwLayoutItemContext>
             </template>
-            <template #action-select>
-                <wwElement v-bind="content.actionSelectElement" @click="selectDate" />
-            </template>
+                <template #action-select>
+                  <div style="width: 100%; display: flex; justify-content: center;">
+                    <wwElement
+                      :is="content.actionSelectElement?.type || 'ww-button'"
+                      :content="{
+                        default: {
+                          text: content?.actionSelectElement?.content?.default?.text || 'OK'
+                        }
+                      }"
+                      @click="selectTime"
+                    />
+                  </div>
+                </template>
             <template #left-sidebar v-if="content.enableLeftSidebar">
                 <wwLayout path="leftSidebarZone" />
             </template>
