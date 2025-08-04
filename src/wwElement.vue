@@ -39,12 +39,8 @@
             <template #action-select>
               <div style="width: 100%; display: flex; justify-content: center;">
                 <wwElement
-                  :is="content.actionSelectElement?.type || 'ww-button'"
-                  :content="{
-                    default: {
-                      text: content?.actionSelectElement?.content?.default?.text || 'OK'
-                    }
-                  }"
+                  :is="content?.actionSelectElement?.type || 'ww-button'"
+                  :content="content?.actionSelectElement?.content || { default: { text: 'OK' } }"
                   @click="selectTime"
                 />
               </div>
