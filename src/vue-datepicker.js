@@ -2668,10 +2668,20 @@ const Hl = (e, n, a, t) => {
       }
       return { text: t[u] < 10 ? `0${t[u]}` : `${t[u]}`, value: t[u] };
     }), ne = (u) => {
-      const l = t.is24 ? 24 : 12, v = u === "hours" ? l : 60, m = +t[`${u}GridIncrement`], k = u === "hours" && !t.is24 ? m : 0, x = [];
-      for (let Z = k; Z < v; Z += m)
-        x.push({ value: Z, text: Z < 10 ? `0${Z}` : `${Z}` });
-      return u === "hours" && !t.is24 && x.push({ value: 0, text: "12" }), Al(x);
+      if (u === "hours") {
+        // Business hours only: 7-17
+        const x = [];
+        for (let Z = 7; Z <= 17; Z++) {
+          x.push({ value: Z, text: Z < 10 ? `0${Z}` : `${Z}` });
+        }
+        return Al(x);
+      } else {
+        // Original logic for minutes and seconds
+        const l = 60, v = l, m = +t[`${u}GridIncrement`], x = [];
+        for (let Z = 0; Z < v; Z += m)
+          x.push({ value: Z, text: Z < 10 ? `0${Z}` : `${Z}` });
+        return Al(x);
+      }
     }, re = (u, l) => {
       const v = t.minTime && t.minTime[l], m = t.maxTime && t.maxTime[l];
       return v && m ? u < v || u > m : v ? u < v : m ? u > m : !1;

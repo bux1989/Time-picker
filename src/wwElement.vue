@@ -1,95 +1,43 @@
 <template>
     <div>
         <DatePicker
-            ref="wwDatePicker"
-            class="ww-date-time-picker"
-            :class="[
-                { 'calendar-only': content.enableCalendarOnly },
-                content.enableCalendarOnly && content.calendarOnlyFit,
-            ]"
-            :day-names="customDayNames"
+            ref="wwTimePicker"
+            class="ww-time-picker"
+
             :model-value="formatedValue"
             @update:model-value="handleSelection"
             :format-locale="formatLocale"
             :format="previewFormat"
             :clearable="false"
             :locale="locale"
-            :time-picker="content.dateMode === 'time'"
-            :month-picker="content.dateMode === 'month'"
-            :year-picker="content.dateMode === 'year'"
-            :week-picker="content.dateMode === 'week'"
-            :range="content.selectionMode === 'range'"
-            :multi-dates="content.selectionMode === 'multi'"
-            :multi-dates-limit="content.multiDatesLimit ? content.multiDatesLimit : null"
-            :auto-range="content.rangeMode === 'auto' ? content.autoRange : null"
-            :partial-range="
-                content.enableCalendarOnly && content.rangeMode === 'free'
-                    ? true
-                    : content.rangeMode === 'free'
-                    ? content.enablePartialRange
-                    : null
-            "
-            :min-range="content.rangeMode === 'minmax' ? content.minRange : null"
-            :max-range="content.rangeMode === 'minmax' ? content.maxRange : null"
-            :multi-calendars="content.enableMultiCalendars ? content.multiCalendars : false"
-            :multi-calendars-solo="content.multiCalendarsSolo"
-            :inline="content.enableCalendarOnly"
-            :vertical="content.orientation === 'vertical'"
-            :enable-time-picker="content.dateMode === 'datetime' || content.dateMode === 'time'"
+            :time-picker="true"
+
+            :enable-time-picker="true"
             :enable-seconds="content.enableSeconds"
             :is-24="content.use24"
             :autoApply="content.autoApply"
             :close-on-auto-apply="content.closeOnAutoApply"
-            :flow="content.enableFlow ? content.flowSteps : null"
-            :timezone="timezone"
-            :week-numbers="content.weekNumbers === 'none' ? null : content.weekNumbers"
-            :hide-offset-dates="content.hideOffsetDates"
-            :min-date="content.minDate"
-            :max-date="content.maxDate"
-            :prevent-min-max-navigation="content.preventMinMaxNavigation"
-            :start-date="content.startDate"
-            :week-start="content.weekStart"
-            :ignore-time-validation="content.ignoreTimeValidation"
-            :disable-month-year-select="content.disableMonthYearSelect"
-            :allowed-dates="content.allowedDates"
-            :disabled-dates="content.disabledDates"
-            :disabled-week-days="content.disabledWeekDays"
-            :no-disabled-range="content.noDisabledRange"
-            :model-type="modelType"
+            :keep-action-row="true"
+            :min-time="minTime"
+            :max-time="maxTime"
             :position="content.menuPosition || 'center'"
-            :teleport=" (content.enableCalendarOnly || content.stickedDatePicker) ? null : body"
+            :teleport="content.stickedTimePicker ? null : body"
             :dpStyle="{ ...themeStyle }"
             :readonly="isReadOnly || isEditing"
-            :key="dpKey"
+            :key="tpKey"
         >
             <template #dp-input="{ value }">
                 <wwLayoutItemContext
                     :index="0"
                     :item="null"
-                    :data="{ preview: value, value: formatOutputValue(formatedValue) }"
+                    :data="{ preview: value || placeholder, value: formatOutputValue(formatedValue) }"
                     is-repeat
                 >
                     <wwLayout path="triggerZone" />
                 </wwLayoutItemContext>
             </template>
-                <template #action-select>
-                  <div style="width: 100%; display: flex; justify-content: center;">
-                    <wwElement
-                      :is="content.actionSelectElement?.type || 'ww-button'"
-                      :content="{
-                        default: {
-                          text: content?.actionSelectElement?.content?.default?.text || 'OK'
-                        }
-                      }"
-                      @click="selectTime"
-                    />
-                  </div>
-                </template>
-            <template #left-sidebar v-if="content.enableLeftSidebar">
-                <wwLayout path="leftSidebarZone" />
-            </template>
-            <template #right-sidebar v-if="content.enableRightSidebar">
-                <wwLayout path="rightSidebarZone" />
+            <template #action-select>
+              <button class="ww-ok-button" @click="selectTime">OK</button>
             </template>
         </DatePicker>
         <input class="required-handler" type="text" :required="content.required" :value="formatedValue" />
@@ -116,18 +64,7 @@ export default {
         wwElementState: { type: Object, required: true },
     },
     setup(props) {
-        const initValue = computed(() =>
-            props.content.selectionMode === "single"
-                ? props.content.initValueSingle || null
-                : props.content.selectionMode === "range"
-                ? {
-                      start: props.content.initValueRangeStart || null,
-                      end: props.content.initValueRangeEnd || null,
-                  }
-                : Array.isArray(props.content.initValueMulti)
-                ? props.content.initValueMulti
-                : []
-        );
+        const initValue = computed(() => props.content.initValueSingle || null);
         const { value: variableValue, setValue } = wwLib.wwVariable.useComponentVariable({
             uid: props.uid,
             name: "value",
@@ -136,9 +73,9 @@ export default {
 
         const body = wwLib.getFrontDocument().body;
 
-        const wwDatePicker = ref(null);
-        const selectDate = () => {
-            wwDatePicker.value.selectDate();
+        const wwTimePicker = ref(null);
+        const selectTime = () => {
+            wwTimePicker.value.selectDate();
         };
 
         return {
@@ -146,37 +83,35 @@ export default {
             setValue,
             body,
             initValue,
-            wwDatePicker,
-            selectDate,
+            wwTimePicker,
+            selectTime,
         };
     },
     watch: {
-        initValue(newValue, oldValue) {
-            if (JSON.stringify(newValue) === JSON.stringify(oldValue)) return;
-            this.setValue(newValue);
-            this.$emit("trigger-event", {
-                name: "initValueChange",
-                event: { value: newValue },
-            });
+        initValue: {
+            immediate: true,
+            handler(newValue, oldValue) {
+                // Always set the value if there's a valid initValue, especially on first load
+                if (newValue !== null && newValue !== undefined) {
+                    this.setValue(newValue);
+                }
+                // Only emit change event if this is not the initial setup
+                if (oldValue !== undefined && JSON.stringify(newValue) !== JSON.stringify(oldValue)) {
+                    this.$emit("trigger-event", {
+                        name: "initValueChange",
+                        event: { value: newValue },
+                    });
+                }
+            },
         },
         /* wwEditor:start */
-        "content.selectionMode"(value) {
-            this.setValue(null);
-            if (value === "multi" && !["datetime", "date"].includes(this.content.dateMode))
-                this.$emit("update:content:effect", { dateMode: "datetime" });
-            this.setValue(this.initialValue);
-        },
-        "content.dateMode"() {
-            this.setValue(this.initialValue);
-        },
-        async dpKey() {
-            if (this.content.enableCalendarOnly) return;
+        async tpKey() {
             await this.$nextTick();
-            this.wwDatePicker.openMenu();
+            this.wwTimePicker.openMenu();
         },
         "wwEditorState.isSelected"(value) {
-            if (!this.isEditing || !value || this.content.enableCalendarOnly) return;
-            this.wwDatePicker.openMenu();
+            if (!this.isEditing || !value) return;
+            this.wwTimePicker.openMenu();
         },
         /* wwEditor:end */
         isReadOnly: {
@@ -211,7 +146,6 @@ export default {
             if (this.content.lang === "pageLang") {
                 return wwLib.wwLang.lang;
             }
-
             return this.content.lang;
         },
         formatLocale() {
@@ -221,27 +155,20 @@ export default {
                 return "en";
             }
         },
-        timezone() {
-            if (!this.content.timezone || this.content.timezone === "locale") return null;
-            return this.content.timezone;
+        minTime() {
+            return { hours: 7, minutes: 0, seconds: 0 };
         },
-        dpKey() {
-            return (
-                this.content.selectionMode +
-                "-" +
-                this.content.dateMode +
-                "-" +
-                (this.content.menuPosition || "center") +
-                (this.content.enableCalendarOnly ? "-only" : "") +
-                (this.content.enableRightSidebar ? "-rightside" : "") +
-                (this.content.enableLeftSidebar ? "-leftside" : "")
-            );
+        maxTime() {
+            return { hours: 17, minutes: 0, seconds: 0 };
         },
-        modelType() {
-            if (this.content.dateMode === "date") return "yyyy-MM-dd";
-            if (this.content.dateMode === "time") return "HH:mm:SS";
-            if (this.content.dateMode === "month") return "yyyy-MM";
-            return null;
+        placeholder() {
+            if (this.locale === 'de') {
+                return 'Zeit auswählen';
+            }
+            return 'Select time';
+        },
+        tpKey() {
+            return "time-picker-" + (this.content.menuPosition || "center");
         },
         isReadOnly() {
             /* wwEditor:start */
@@ -253,23 +180,7 @@ export default {
                 ? this.content.readonly
                 : this.wwElementState.props.readonly;
         },
-        customDayNames() {
-            if (this.locale == "ar") {
-                /*
-                    Sun - أحد (Ahad)
-                    Mon - إثن (Ithn)
-                    Tue - ثلاث (Thulath)
-                    Wed - أربع (Arba')
-                    Thu - خمس (Khams)
-                    Fri - جمعة (Jumu'ah)
-                    Sat - سبت (Sabt)
-                */
-                const arDayList = ['أحد','إثن','ثلاث','أربع','خمس','جمعة','سبت'];
-                const weekStartIndex = this.content.weekStart; // 0 to 6
-                return arDayList.slice(weekStartIndex).concat(arDayList.slice(0, weekStartIndex));
-            }
-            return null;
-        },
+
         themeStyle() {
             return {
                 // COLORS
@@ -307,12 +218,7 @@ export default {
     },
     methods: {
         handleSelection(value) {
-            if (this.content.dateMode === "datetime" && value) {
-                value = Array.isArray(value)
-                    ? value.map((date) => (date ? date.toISOString() : null))
-                    : value.toISOString();
-            }
-            const newValue = this.formatOutputValue(value);
+            const newValue = value || null;
             if (JSON.stringify(this.variableValue) === JSON.stringify(newValue)) return;
             this.setValue(newValue);
             this.$emit("trigger-event", {
@@ -321,40 +227,17 @@ export default {
             });
         },
         formatInputValue(value) {
-            if (!value) return null;
-            else if (this.content.selectionMode === "single") return value;
-            else if (this.content.selectionMode === "range") {
-                if (!value.start && !value.end) return null;
-                return [value.start || null, value.end || null].filter((value) => value !== null && value !== "");
-            }
-            else if (this.content.selectionMode === "multi") return value;
+            return value || null;
         },
         formatOutputValue(value) {
-            if (!value) return null;
-            else if (this.content.selectionMode === "single") return value;
-            else if (this.content.selectionMode === "range") return { start: value[0], end: value[1] };
-            else if (this.content.selectionMode === "multi") return value;
+            return value || null;
         },
         clearValue() {
-            const clearValue = this.content.selectionMode === "single"
-                ? null
-                : this.content.selectionMode === "range"
-                ? {
-                      start: null,
-                      end: null,
-                  }
-                : []
-            this.setValue(clearValue);
+            this.setValue(null);
         },
         /* wwEditor:start */
         getTestEvent() {
-            let fakeDate = new Date().toISOString();
-            if (this.content.dateMode === "month") fakeDate = "2023-03";
-            if (this.content.dateMode === "year") fakeDate = "2023";
-            if (this.content.dateMode === "time") fakeDate = "01:25:00";
-            if (this.content.selectionMode === "single") return { value: fakeDate };
-            else if (this.content.selectionMode === "range") return { value: { start: fakeDate, end: fakeDate } };
-            else if (this.content.selectionMode === "multi") return { value: [fakeDate, fakeDate, fakeDate] };
+            return { value: "14:30:00" };
         },
         /* wwEditor:end */
     },
@@ -368,12 +251,6 @@ export default {
 </style>
 
 <style lang="scss" scoped>
-:deep(.calendar-only.stretch) .dp__outer_menu_wrap {
-    width: 100% !important;
-}
-.calendar-only.center {
-    justify-content: center;
-}
 .required-handler {
     opacity: 0;
     width: 100%;
